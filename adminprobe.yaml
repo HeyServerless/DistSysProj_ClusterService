@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: admin-pod
+spec:
+  containers:
+  - name: admin-container
+    image: alpine
+    command: ['sh', '-c', 'while true; do sleep 10; for pod in $(kubectl get pods -l app=<admin-pod> -o jsonpath="{.items[*].metadata.name}"); do echo "$pod is $(kubectl get pod $pod -o jsonpath="{.status.phase}")"; done; done']
+ 

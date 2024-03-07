@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adminpod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adminpod
+  template:
+    metadata:
+      labels:
+        app: adminpod
+    spec:
+      containers:
+      - name: adminpod
+        image: rajeshreddyt/admin-pod-grpc-serve:latest
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adminpod
+spec:
+  selector:
+    app: adminpod
+  
+  ports:
+  - protocol: TCP
+    port: 3000
+    nodePort: 30006
+  type: NodePort
